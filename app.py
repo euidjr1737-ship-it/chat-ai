@@ -4,9 +4,9 @@ from openai import OpenAI
 # -----------------------
 # Page Configuration
 # -----------------------
-st.set_page_config(page_title="🎬 Film Industry Creative Chatbot", layout="wide")
-st.title("🎬 Film Industry Creative Chatbot")
-st.write("Select a film-industry role and ask your question or pitch an idea!")
+st.set_page_config(page_title="🎭 Performing Arts Creative Chatbot", layout="wide")
+st.title("🎭 Performing Arts Creative Chatbot")
+st.write("Select a role from the performing-arts industry and ask your question or pitch your idea!")
 
 # -----------------------
 # Sidebar: API Key + Role Selection
@@ -20,76 +20,24 @@ api_key = st.sidebar.text_input(
     placeholder="sk-xxxxxxxxxxxxxxxx",
 )
 
-# Film industry roles
+# Performing-arts roles
 roles = {
-    "🎥 Film Director": (
-        "You are a professional film director. Analyze everything visually: "
-        "camera angles, framing, lighting, blocking, and emotional tone. "
-        "Give advice as if planning a real movie scene."
+    "🎼 Musical Director": (
+        "You are a musical director. Give advice about vocal interpretation, harmony, "
+        "tempo, ensemble balance, and how music drives emotional beats on stage."
     ),
-    "🎬 Producer / Planner": (
-        "You are a film producer. Focus on project feasibility, budgeting, scheduling, "
-        "and resource allocation. Offer advice to make the production smooth and realistic."
+    "📝 Dramaturg": (
+        "You are a dramaturg. Provide deep analysis on narrative structure, character arcs, "
+        "themes, pacing, and how the script can be strengthened artistically."
     ),
     "🎭 Acting Coach": (
-        "You are an acting coach. Provide guidance on delivering lines, body language, "
-        "emotional depth, and scene timing. Use examples from theater or film."
+        "You are an acting coach. Give guidance on emotional delivery, blocking, "
+        "presence, timing, and character embodiment for the stage."
     ),
-    "🎨 Production Designer": (
-        "You are a production designer. Describe settings, props, colors, textures, "
-        "and visual storytelling elements to create immersive cinematic worlds."
+    "🎨 Stage / Set Designer": (
+        "You are a stage and set designer. Describe set concepts, lighting, stage mechanics, "
+        "color palettes, props, and how to visually support storytelling."
     ),
-    "🎵 Composer / Sound Designer": (
-        "You are a composer and sound designer. Suggest music, sound effects, "
-        "and auditory mood to enhance the emotions and pacing of a scene."
-    )
-}
-
-role_name = st.sidebar.selectbox("Choose a film-industry role:", list(roles.keys()))
-role_description = roles[role_name]
-st.sidebar.info(role_description)
-
-# -----------------------
-# User Input Area
-# -----------------------
-user_input = st.text_area(
-    "💬 Ask your question or describe your film idea:",
-    height=120,
-    placeholder="e.g., How can I make a suspenseful rooftop chase scene feel more cinematic?"
-)
-
-# -----------------------
-# Generate Response
-# -----------------------
-if st.button("Generate Response"):
-    if not api_key:
-        st.warning("⚠️ Please enter your OpenAI API key in the sidebar.")
-    elif not user_input:
-        st.warning("Please enter a question or idea first!")
-    else:
-        try:
-            # 최신 OpenAI 방식
-            client = OpenAI(api_key=api_key)
-
-            with st.spinner("🎬 Generating cinematic advice..."):
-                response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "system", "content": role_description},
-                        {"role": "user", "content": user_input}
-                    ],
-                    max_tokens=500
-                )
-
-                answer = response.choices[0].message.content
-                st.success(f"🎬 {role_name} says:")
-                st.write(answer)
-
-        except Exception as e:
-            st.error(f"Error: {e}")
-
-# -----------------------
-# Footer
-# -----------------------
-st.markdown("---")
-st.caption("Created for film creatives • Streamlit + OpenAI")
+    "🔊 Sound Designer": (
+        "You are a sound designer. Provide insights on sound cues, ambience, SFX, "
+        "microphone strategy, and creating immersive auditory spaces for live performance."
